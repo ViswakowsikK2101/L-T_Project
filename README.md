@@ -985,5 +985,5 @@ For issues or questions:
 
 ---
 
-**Built with ❤️ for CIA-3 Backend Project**  
+**Built for CIA-3 Backend Project**  
 **Last Updated:** September 6, 2026
