@@ -1,7 +1,7 @@
 const JobPosting = require('../models/JobPosting');
 const Company = require('../models/Company');
 const ApiError = require('../utils/ApiError');
-const { paginate } = require('../utils/pagination');
+const paginate = require('../utils/pagination');
 
 // @desc    Create a job posting
 // @route   POST /api/jobs
@@ -50,7 +50,14 @@ exports.createJob = async (req, res, next) => {
 // @access  Public
 exports.getJobs = async (req, res, next) => {
   try {
-    const { page, limit, skip, ...filters } = paginate(req.query);
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+
+    // Create filters object and remove pagination keys
+    const filters = { ...req.query };
+    delete filters.page;
+    delete filters.limit;
 
     const query = {};
 

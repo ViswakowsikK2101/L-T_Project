@@ -53,6 +53,93 @@ exports.getHiringFunnel = async (req, res, next) => {
   }
 };
 
+// GET /api/admin/reports/jobs - Admin only
+exports.getJobStats = async (req, res, next) => {
+  try {
+    const totalJobs = await JobPosting.countDocuments();
+    const activeJobs = await JobPosting.countDocuments({ status: 'open' });
+    const closedJobs = await JobPosting.countDocuments({ status: 'closed' });
+    const draftJobs = await JobPosting.countDocuments({ status: 'draft' });
+
+    // Jobs by location
+    const jobsByLocation = await JobPosting.aggregate([
+      {
+        $group: {
+          _id: '$location',
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: 10 }
+    ]);
+
+    // Jobs by type
+    const jobsByType = await JobPosting.aggregate([
+      {
+        $group: {
+          _id: '$jobType',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    // Jobs by experience level
+    const jobsByExperience = await JobPosting.aggregate([
+      {
+        $group: {
+          _id: '$experienceLevel',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    // Total applications per job (top 10)
+    const topJobsByApplications = await Application.aggregate([
+      {
+        $group: {
+          _id: '$job',
+          applicationCount: { $sum: 1 }
+        }
+      },
+      { $sort: { applicationCount: -1 } },
+      { $limit: 10 },
+      {
+        $lookup: {
+          from: 'jobpostings',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'jobDetails'
+        }
+      },
+      { $unwind: '$jobDetails' },
+      {
+        $project: {
+          jobTitle: '$jobDetails.title',
+          company: '$jobDetails.company',
+          applicationCount: 1
+        }
+      }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: 'Job statistics retrieved successfully',
+      data: {
+        totalJobs,
+        activeJobs,
+        closedJobs,
+        draftJobs,
+        jobsByLocation,
+        jobsByType,
+        jobsByExperience,
+        topJobsByApplications
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // GET /api/admin/users
 exports.getUsers = async (req, res, next) => {
   try {
