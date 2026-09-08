@@ -34,7 +34,11 @@ A comprehensive backend REST API for a Job Portal and Recruitment Management Sys
 **Course:** CIA-3 Backend Project  
 
 **Team Members:**
-- [Add your name, roll number, section here]
+Vidhika Singh - 2462371
+Vijay M - 2462372
+Vikasini Chandrakumar - 2462373
+Viswakowsik K - 2462374
+Viswanath Madhusoodhanan - 2462375
 
 ---
 
@@ -911,69 +915,6 @@ This is an academic project. For suggestions or improvements:
 
 ---
 
-## 📄 License
-
-ISC License - Free for academic and educational use.
-
----
-
-## 📞 Support
-
-For issues or questions:
-- Review the `TESTING_GUIDE.md` for common problems
-- Check MongoDB connection and environment variables
-- Verify Node.js and npm versions
-- Ensure all dependencies are installed
-
----
-
-## 🎓 Academic Evaluation Criteria
-
-### Functional Modules (14 marks)
-✅ All 13 mandatory modules implemented:
-1. User Registration & Authentication
-2. Company Profile Management
-3. Job Posting Management
-4. Job Search & Filtering
-5. Candidate Profile & Resume Metadata
-6. Job Application Submission
-7. Applicant Pipeline Workflow
-8. Interview Scheduling
-9. Recruiter Applicant Dashboard
-10. Saved Jobs & Job Alerts
-11. Offer Management
-12. Admin Reports & Analytics
-13. Role-Based Access Control
-
-### Database Design (6 marks)
-✅ MongoDB best practices followed
-✅ Proper indexing strategy
-✅ Embedding vs referencing decisions documented
-✅ Compound unique indexes for data integrity
-
-### Code Quality (6 marks)
-✅ MVC architecture
-✅ Modular, reusable code
-✅ Centralized error handling
-✅ Consistent code style
-✅ Comprehensive validation
-
-### GitHub Hygiene (4 marks)
-✅ Proper .gitignore
-✅ No secrets committed
-✅ Clear project structure
-✅ Complete documentation
-
-### PPT Content (4 marks)
-✅ PPT outline provided in `PPT_OUTLINE.md`
-
-### Viva Performance (6 marks)
-✅ Viva preparation guide in `VIVA_PREPARATION.md`
-
-**Total: 40 marks**
-
----
-
 ## 🏆 Project Highlights
 
 - **Production-Ready**: Follows industry best practices for security, validation, and error handling
@@ -986,4 +927,4 @@ For issues or questions:
 ---
 
 **Built for CIA-3 Backend Project**  
-**Last Updated:** September 6, 2026
+**Last Updated:** September 8, 2026
