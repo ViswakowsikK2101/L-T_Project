@@ -1,20 +1,34 @@
 /**
  * Reusable pagination helper.
  *
- * @param {mongoose.Query} query   – A Mongoose query (NOT yet awaited).
- * @param {Object}         options – { page, limit } from the request query string.
+ * @param {mongoose.Model}  Model    – Mongoose model to query.
+ * @param {Object}          filter   – Mongoose filter object.
+ * @param {number}          [page=1] – Current page number.
+ * @param {number}          [limit=10] – Items per page.
+ * @param {Object|Array}    [populate] – Mongoose populate options.
  * @returns {Promise<{ data: Array, pagination: Object }>}
  */
-const paginate = async (query, { page = 1, limit = 10 } = {}) => {
+const paginate = async (Model, filter = {}, page = 1, limit = 10, populate = null) => {
   page = Math.max(1, parseInt(page, 10) || 1);
   limit = Math.max(1, Math.min(100, parseInt(limit, 10) || 10));
 
   const skip = (page - 1) * limit;
 
-  // Run count and data fetch in parallel for efficiency
+  let query = Model.find(filter).skip(skip).limit(limit);
+
+  if (populate) {
+    if (Array.isArray(populate)) {
+      populate.forEach((p) => {
+        query = query.populate(p);
+      });
+    } else {
+      query = query.populate(populate);
+    }
+  }
+
   const [total, data] = await Promise.all([
-    query.model.countDocuments(query.getFilter()),
-    query.skip(skip).limit(limit),
+    Model.countDocuments(filter),
+    query,
   ]);
 
   return {

@@ -1,6 +1,5 @@
 const Company = require('../models/Company');
 const ApiError = require('../utils/ApiError');
-const { paginate } = require('../utils/pagination');
 
 // @desc    Create a company
 // @route   POST /api/companies
@@ -124,11 +123,13 @@ exports.deleteCompany = async (req, res, next) => {
 // @access  Public
 exports.getCompanies = async (req, res, next) => {
   try {
-    const { page, limit, skip, ...filters } = paginate(req.query);
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
 
     const query = {};
-    if (filters.name) {
-      query.name = { $regex: filters.name, $options: 'i' };
+    if (req.query.name) {
+      query.name = { $regex: req.query.name, $options: 'i' };
     }
 
     const total = await Company.countDocuments(query);

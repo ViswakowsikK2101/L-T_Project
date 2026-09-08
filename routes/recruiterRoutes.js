@@ -4,7 +4,7 @@ const { getApplicantsForJob, getAllApplicants } = require('../controllers/recrui
 const authenticate = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
 
-router.get('/jobs/:jobId/applicants', authenticate, authorize('recruiter'), getApplicantsForJob);
 router.get('/applicants', authenticate, authorize('recruiter'), getAllApplicants);
+router.get('/jobs/:jobId/applicants', authenticate, authorize('recruiter'), getApplicantsForJob);
 
 module.exports = router;
